@@ -9,7 +9,7 @@ In this repo, we illustrate how Kubernetes RBAC can be used to control access to
 Let us say that your SRE team has four groups of users/service accounts who need cluster level access with the following permissions.
 
 
-1. cluster-admin-group: This group needs all access to the cluster.
+1. cluster-admin-role: This group needs all access to the cluster.
 2. cicd-user-cluster-role:  Members of this group can do everything in the cluster, except reading or writing secrets. (So e.g. user in group can change role bindings for all namespaces within the cluster)
 3. ops-user-cluster-role: Members of this group can do everything in the cluster, except changing role bindings and reading/writing secrets.
 4. qa-user-cluster-role: Members of this group have read-only access to everything in the cluster except the permissions to read the secrets.
@@ -22,9 +22,9 @@ Let us say that your SRE team has four groups of users/service accounts who need
 gcloud iam roles create get-creds-role --project <project-name> --file get-cred-role.yaml
 ```
 
-### cluster-admin Role
+### cluster-admin-role
 
-Use the predefined cluster-admin role.
+Use the predefined cluster-admin role provided by Kubernates.
 
 #### Tests
 
@@ -63,7 +63,7 @@ yes
 
 ### cicd-user-cluster-role
 
-1. Create CICI user cluster Role. Resoources and API groups in this role include all resources and API groups as in output of (kubectl api-resources -o wide) except Secrets.
+1. Create cicd-user-cluster-role. Resoources and API groups in this role include all resources and API groups as in output of (kubectl api-resources -o wide) except Secrets.
 ```
 kubectl apply -f cicd-user-cluster-role.yaml
 ```
@@ -104,9 +104,9 @@ kubectl auth can-i get secrets
 no
 ```
 
-### Ops  Role
+### ops-user-cluster-role
 
-Create Ops User Role.
+Create ps-user-cluster-role
 Note - Resoources and API groups in this role include all resources , verbs and API groups as in output of (kubectl api-resources -o wide) except the following:
 1. No action on Secrets.
 2. Read access on clusterrolebindings and rolebindings.
@@ -154,9 +154,9 @@ kubectl auth can-i get clusterrolebindings
 yes
 ```
 
-### QA User Role
+### qa-user-cluster-role
 
-Create QA User Role.
+Create qa-user-cluster-role.
 Note - Resoources and API groups in this role include read access on all resources , verbs and API groups as in output of (kubectl api-resources -o wide) except Secrets.
 ```
 kubectl apply -f qa-user-cluster-role.yaml
