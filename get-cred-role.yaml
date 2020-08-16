@@ -1,0 +1,5 @@
+description: My custom role description.
+includedPermissions:
+- container.clusters.get
+stage: GA
+title: Cluster Get Credentials Role

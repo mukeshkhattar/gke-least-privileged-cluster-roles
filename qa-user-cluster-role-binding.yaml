@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: qa-user-cluster-role-binding
+subjects:
+- kind: User # for example only . It should be a group
+  name: qa-user@my-gkeproject-1.iam.gserviceaccount.com # Name is case sensitive. Name of user or group
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: qa-user-cluster-role
+  apiGroup: rbac.authorization.k8s.io
